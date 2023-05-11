@@ -1,0 +1,34 @@
+[
+    {
+        "id": 0,
+        "titulo": "Llamar al Ayuntamiento",
+        "descripcion": "Preguntar si va a a venir la concejala.",
+        "estado": "Pendiente",
+        "prioridad": "NORMAL",
+        "fechaCreacion": "21/4/2023, 10:30"
+    },
+    {
+        "id": 1,
+        "titulo": "Hacer un backup",
+        "descripcion": "Hacer un backup de los datos más importantes",
+        "estado": "Pendiente",
+        "prioridad": "URGENTE",
+        "fechaCreacion": "21/4/2023, 10:45"
+    },
+    {
+        "id": 2,
+        "titulo": "Cargar el móvil",
+        "descripcion": "Que no se me quede sin batería mi bebé. 😭",
+        "estado": "Pendiente",
+        "prioridad": "NORMAL",
+        "fechaCreacion": "21/4/2023, 12:00"
+    },
+    {
+        "id": 3,
+        "titulo": "Hacer vida social",
+        "descripcion": "Ir a tomar algo afuera.",
+        "estado": "Pendiente",
+        "prioridad": "BLOQUEANDO",
+        "fechaCreacion": "21/4/2023, 21:00"
+    }
+]

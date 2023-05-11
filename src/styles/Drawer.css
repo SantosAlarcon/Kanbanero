@@ -1,0 +1,10 @@
+.EZDrawer__container {
+    background: #232323 !important;
+    padding: 2em 1em;
+    display: flex;
+    flex-direction: column;
+}
+
+.drawer-bottom {
+    align-self: end;
+}
