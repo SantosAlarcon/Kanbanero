@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import Tarea from "./Tarea/Tarea";
 import ModalNuevaTarea from "./ModalNuevaTarea/ModalNuevaTarea";
 import useTasks from "../hooks/useTasks";
+import {motion} from "framer-motion"
 
 /**
  * El cuadro de estado muestra un cuadro con el estado de la tarea y las tareas correspondientes a ese

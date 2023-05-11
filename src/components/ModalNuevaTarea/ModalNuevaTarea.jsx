@@ -20,12 +20,15 @@ const ModalNuevaTarea = () => {
 
 	const [nuevaTarea, setNuevaTarea] = useState({ ...tareaInicial });
 
-	const estadoOriginal = useRef();
+	// Se crea una referencia del estado original, en plan reseteo.
+    const estadoOriginal = useRef();
 	estadoOriginal.current = tareaInicial;
 
 	const toggleVisible = () => setVisible(!visible);
 
+    // Función para crear una tarea
 	const handleCrearTarea = () => {
+        // Si los campos de título y descripción están vacíos, se manda un error.
 		if (nuevaTarea.titulo === "" && nuevaTarea.descripcion === "") {
 			return setError(true);
 		} else {
@@ -41,6 +44,7 @@ const ModalNuevaTarea = () => {
 
 	const cancelar = () => {
 		toggleVisible();
+        setError(false);
 		setNuevaTarea(estadoOriginal.current);
 	};
 
@@ -71,7 +75,7 @@ const ModalNuevaTarea = () => {
 					/>
 					{error && <p className="text-red-900">La descripción es OBLIGATORIA.</p>}
 					<Select
-						defaultValue={0}
+						defaultValue={nuevaTarea.prioridad}
 						onChange={(e) =>
 							setNuevaTarea({ ...nuevaTarea, prioridad: e.target.value })
 						}
