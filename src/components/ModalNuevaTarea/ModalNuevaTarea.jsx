@@ -35,7 +35,8 @@ const ModalNuevaTarea = () => {
 			setError(false);
 		}
 
-		if (!error) {
+		// Si no hay errores se procede a crear la tarea.
+        if (!error) {
 			crearTarea(nuevaTarea);
 			setNuevaTarea(estadoOriginal.current);
 			toggleVisible();
@@ -44,8 +45,11 @@ const ModalNuevaTarea = () => {
 
 	const cancelar = () => {
 		toggleVisible();
-        setError(false);
-		setNuevaTarea(estadoOriginal.current);
+
+        setTimeout(() => {
+            setError(false);
+		    setNuevaTarea(estadoOriginal.current);
+        }, 1500)
 	};
 
 	return (
@@ -75,7 +79,8 @@ const ModalNuevaTarea = () => {
 					/>
 					{error && <p className="text-red-900">La descripción es OBLIGATORIA.</p>}
 					<Select
-						defaultValue={nuevaTarea.prioridad}
+						defaultValue={Prioridad.NORMAL}
+                        value={nuevaTarea.prioridad}
 						onChange={(e) =>
 							setNuevaTarea({ ...nuevaTarea, prioridad: e.target.value })
 						}
