@@ -6,8 +6,7 @@ import Prioridad from "../../models/PrioridadTarea";
 import ModalModificarTarea from "../ModalModificarTarea/ModalModificarTarea";
 import Estado from "../../models/EstadosTarea";
 import { motion } from "framer-motion";
-import { AnimatePresence } from "framer-motion";
-import { Toast } from "react-daisyui";
+import { toast } from "react-toastify";
 
 const Tarea = ({ tarea, esVisible }) => {
     const { borrarTarea } = useTasks();
@@ -27,12 +26,14 @@ const Tarea = ({ tarea, esVisible }) => {
     const handleDelete = () => {
         if (confirm("¿Estás segur@ de borrar la tarea?")) {
             borrarTarea(tarea.id);
+            toast.success("La tarea se ha borrado con éxito");
         }
     };
 
     // Esto cambia el estado de visibilidad del modal de "Modificar tarea" cuando el usuario hace doble
     // click en una tarea.
     const handleModify = () => setModalModVisible(!modalModVisible);
+    const handleModifyError = () => toast.error("No se puede modificar una tarea completada.");
 
     const variants = {
         expandedmoreBtn: {
@@ -60,11 +61,12 @@ const Tarea = ({ tarea, esVisible }) => {
                     : null
             }
             onDoubleClick={
-                tarea.estado !== Estado.COMPLETADA ? handleModify : null
+                tarea.estado !== Estado.COMPLETADA ? handleModify : handleModifyError
             }
-            className={`rounded-lg p-2 text-left shadow-lg text-black hover:cursor-grab active:cursor-grabbing transition flex flex-col
+            className={`rounded-lg p-2 text-left shadow-lg text-black hover:cursor-pointer active:cursor-grabbing transition flex flex-col
         {// El fondo de las tareas cambiará en función de su prioridad.}
-        ${tarea.prioridad === Prioridad.NORMAL
+        ${tarea.estado === Estado.COMPLETADA ? "bg-gray-300" 
+                : tarea.prioridad === Prioridad.NORMAL
                     ? "bg-gray-200"
                     : "" || tarea.prioridad === Prioridad.URGENTE
                         ? "bg-yellow-400"
@@ -82,12 +84,12 @@ const Tarea = ({ tarea, esVisible }) => {
                     animate={expandido ? "expandedlessBtn" : "expandedmoreBtn"}
                     variants={variants}
                     transition={{ duration: 0.2 }}
-                    className="m-0 p-0 bg-transparent focus:outline-none hover:border-none border-none"
+                    className="m-0 p-2 bg-transparent focus:outline-none hover:border-none border-none"
                     onClick={() => setExpandido(!expandido)}
                 >
                     <ExpandMore />
                 </motion.button>
-                <p className="self-start font-semibold">{tarea.titulo}</p>
+                <p className="self-center text-[1.1em] font-semibold">{tarea.titulo}</p>
                 <button
                     className="p-0 bg-transparent border-none outline-none focus:border-none focus:outline-none hover:border-none"
                     onClick={handleDelete}
@@ -101,9 +103,9 @@ const Tarea = ({ tarea, esVisible }) => {
                 animate={expandido ? "expandedless" : "expandedmore"}
                 variants={variants}
                 transition={{ duration: 0.5 }}
-                className="flex justify-between mt-2 transition"
+                className="flex justify-center mt-2 transition rounded-lg border-[#0003] border py-2"
             >
-                <span>{tarea.descripcion}</span>
+                <span className="font-[1.1em]">{tarea.descripcion}</span>
             </motion.div>
 
             <ModalModificarTarea tarea={tarea} open={modalModVisible} />

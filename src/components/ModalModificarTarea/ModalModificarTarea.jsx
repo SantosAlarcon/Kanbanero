@@ -2,6 +2,7 @@ import React, { useState, useRef, useContext, useEffect } from "react";
 import { Modal, Button, Input, Select } from "react-daisyui";
 import Prioridad from "../../models/PrioridadTarea";
 import useTasks from "../../hooks/useTasks";
+import { toast } from "react-toastify";
 
 const ModalModificarTarea = ({ tarea, open }) => {
 	const [visible, setVisible] = useState(open);
@@ -22,6 +23,7 @@ const ModalModificarTarea = ({ tarea, open }) => {
     // Se cierra la ventana cuando se termina la operación.
 	const handleModificarTarea = () => {
 		modificarTarea(tarea.id, nuevaTarea);
+        toast.success(`La tarea '${nuevaTarea.titulo}' se ha modificado con éxito`);
         estadoOriginal.current = nuevaTarea;
 		toggleModifyVisible();
 	};

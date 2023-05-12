@@ -1,13 +1,15 @@
-import React, { useState, useRef, useContext } from "react";
-import { Modal, Button, Form, Input, Select } from "react-daisyui";
+import React, { useState, useRef } from "react";
+import { Modal, Button, Input, Select } from "react-daisyui";
 import Prioridad from "../../models/PrioridadTarea";
 import useTasks from "../../hooks/useTasks";
 import Estado from "../../models/EstadosTarea";
+import { toast } from "react-toastify";
 
 const ModalNuevaTarea = () => {
 	const [visible, setVisible] = useState(false);
 	const { crearTarea, siguienteId } = useTasks();
-	const [error, setError] = useState(false);
+	const [errorTitulo, setErrorTitulo] = useState(false);
+	const [errorDesc, setErrorDesc] = useState(false);
 
 	const tareaInicial = {
 		id: siguienteId,
@@ -30,14 +32,18 @@ const ModalNuevaTarea = () => {
 	const handleCrearTarea = () => {
         // Si los campos de título y descripción están vacíos, se manda un error.
 		if (nuevaTarea.titulo === "" && nuevaTarea.descripcion === "") {
-			return setError(true);
+			setErrorTitulo(true)
+            setErrorDesc(true);
+            return;
 		} else {
-			setError(false);
+			setErrorTitulo(false);
+			setErrorDesc(false);
 		}
 
 		// Si no hay errores se procede a crear la tarea.
-        if (!error) {
+        if (!errorDesc && !errorTitulo) {
 			crearTarea(nuevaTarea);
+            toast.success(`La tarea '${nuevaTarea.titulo}' se ha creado con éxito`);
 			setNuevaTarea(estadoOriginal.current);
 			toggleVisible();
 		}
@@ -47,7 +53,8 @@ const ModalNuevaTarea = () => {
 		toggleVisible();
 
         setTimeout(() => {
-            setError(false);
+            setErrorTitulo(false);
+            setErrorDesc(false);
 		    setNuevaTarea(estadoOriginal.current);
         }, 1500)
 	};
@@ -67,7 +74,7 @@ const ModalNuevaTarea = () => {
 						value={nuevaTarea.titulo}
 						required
 					/>
-					{error && <p className="text-red-900">El titulo es OBLIGATORIO.</p>}
+					{errorTitulo && <p className="text-red-900">El titulo es OBLIGATORIO.</p>}
 					<Input
 						type="text"
 						placeholder="Introduce la descripción de la tarea (obligatorio)"
@@ -77,9 +84,8 @@ const ModalNuevaTarea = () => {
 						value={nuevaTarea.descripcion}
 						required
 					/>
-					{error && <p className="text-red-900">La descripción es OBLIGATORIA.</p>}
+					{errorDesc && <p className="text-red-900">La descripción es OBLIGATORIA.</p>}
 					<Select
-						defaultValue={Prioridad.NORMAL}
                         value={nuevaTarea.prioridad}
 						onChange={(e) =>
 							setNuevaTarea({ ...nuevaTarea, prioridad: e.target.value })
