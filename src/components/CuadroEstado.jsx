@@ -62,7 +62,7 @@ const CuadroEstado = ({ titulo, tareasEstado }) => {
                     className="bg-sky-200 rounded-xl p-4 gap-4 flex flex-col h-full transition" name={titulo}>
                     {/* Aquí se renderizarán las tareas que coinciden con ese estado. */}
                     {tareasEstado.map((t) => {
-                        return <Tarea key={t.id} tarea={t} esVisible={true} />;
+                        return <Tarea key={t.id} tarea={t} />;
                     })}
                     {/* Solo se mostrará el botón de 'Nueva tarea' en la lista de tareas pendientes. */}
                     {titulo === "Pendiente" && <ModalNuevaTarea />}

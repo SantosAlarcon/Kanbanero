@@ -7,18 +7,18 @@ import ModalModificarTarea from "../ModalModificarTarea/ModalModificarTarea";
 import Estado from "../../models/EstadosTarea";
 import { motion } from "framer-motion";
 import { toast } from "react-toastify";
+import useModal from "../../hooks/useModal";
 
-const Tarea = ({ tarea, esVisible }) => {
+const Tarea = ({ tarea }) => {
     const { borrarTarea } = useTasks();
     const [expandido, setExpandido] = useState(false);
-    const [modalModVisible, setModalModVisible] = useState(false);
+    const {actualizarTareaModal, abrirModal} = useModal();
 
     // Cuando se comienza a arrastrar la tarea, se establece el efecto de arrastre en "move" y
     // se añaden los datos de la tarea y el estado previo al evento.
     const handleDragStart = (event) => {
         event.dataTransfer.effectAllowed = "move";
         event.dataTransfer.setData("tarea", JSON.stringify(tarea));
-        console.log("Estoy arrastrando...");
     };
 
     // Esta función borra la tarea en cuestión. Sale un mensaje de confirmación preguntando si quiere borrar
@@ -32,7 +32,11 @@ const Tarea = ({ tarea, esVisible }) => {
 
     // Esto cambia el estado de visibilidad del modal de "Modificar tarea" cuando el usuario hace doble
     // click en una tarea.
-    const handleModify = () => setModalModVisible(!modalModVisible);
+    const handleModify = () => {
+        actualizarTareaModal(tarea);
+        abrirModal();
+    };
+
     const handleModifyError = () => toast.error("No se puede modificar una tarea completada.");
 
     const variants = {
@@ -107,8 +111,6 @@ const Tarea = ({ tarea, esVisible }) => {
             >
                 <span className="font-[1.1em]">{tarea.descripcion}</span>
             </motion.div>
-
-            <ModalModificarTarea tarea={tarea} open={modalModVisible} />
         </div>
     );
 };
